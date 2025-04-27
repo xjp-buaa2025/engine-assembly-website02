@@ -2,10 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+const { Pool } = require('pg');
+const pgSession = require('connect-pg-simple')(session);
+
+// 加载环境变量配置
+const env = require('./config/env');
 
 // 初始化Express应用
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT || 3000;
+
+// 创建数据库连接池
+const pool = new Pool({
+  connectionString: env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // 为了连接到某些数据库服务，可能需要此配置
+  }
+});
 
 // 设置视图引擎
 app.set('view engine', 'ejs');
@@ -15,12 +28,28 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// 使用PostgreSQL存储会话
 app.use(session({
-  secret: 'engine-assembly-secret-key',
+  store: new pgSession({
+    pool: pool,
+    tableName: 'session'   // 使用默认的表名
+  }),
+  secret: env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 86400000 } // 24小时
+  saveUninitialized: false,
+  cookie: { 
+    maxAge: 24 * 60 * 60 * 1000, // 24小时
+    secure: process.env.NODE_ENV === 'production' // 在生产环境中使用安全cookie
+  }
 }));
+
+// 调试中间件 - 输出会话信息
+app.use((req, res, next) => {
+  console.log('会话ID:', req.sessionID);
+  console.log('会话数据:', req.session);
+  next();
+});
 
 // 引入路由
 const indexRoutes = require('./routes/index');
