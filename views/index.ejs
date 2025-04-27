@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发动机虚拟装配系统 - 登录</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="login-header">
+      <h1>发动机虚拟装配系统</h1>
+      <p>先进技术，精密工程</p>
+    </div>
+    
+    <div class="login-form-container">
+      <div class="logo-container">
+        <i class="fas fa-cogs logo-icon"></i>
+      </div>
+      
+      <form action="/login" method="POST" class="login-form">
+        <% if (error) { %>
+          <div class="error-message"><%= error %></div>
+        <% } %>
+        
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input type="text" id="username" name="username" placeholder="请输入您的用户名" required>
+        </div>
+        
+        <button type="submit" class="login-button">
+          <span>进入系统</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+    
+    <div class="login-footer">
+      <p>© 2025 发动机虚拟装配技术研究中心</p>
+    </div>
+  </div>
+  
+  <div class="particles-container" id="particles-js"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: '#ffffff' },
+          shape: { type: 'circle' },
+          opacity: { value: 0.5, random: true },
+          size: { value: 3, random: true },
+          line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+          move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out' }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } },
+          modes: { grab: { distance: 140, line_linked: { opacity: 1 } } }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
