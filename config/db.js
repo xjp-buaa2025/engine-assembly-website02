@@ -5,15 +5,30 @@ const pool = new Pool({
   connectionString: 'postgresql://neondb_owner:npg_yXUV5pCMT3Fl@ep-cold-dream-a40dso0e-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require'
 });
 
-// 测试数据库连接
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('数据库连接失败:', err);
-  } else {
-    console.log('数据库连接成功:', res.rows[0]);
+// Vercel无服务器环境优化：使用单一客户端
+let client = null;
+
+const connect = async () => {
+  if (client === null) {
+    client = await pool.connect();
   }
-});
+  return client;
+};
 
 module.exports = {
-  query: (text, params) => pool.query(text, params)
+  query: async (text, params) => {
+    // 在开发环境中
+    if (process.env.NODE_ENV !== 'production') {
+      return pool.query(text, params);
+    }
+    
+    // 在Vercel生产环境中
+    try {
+      const client = await connect();
+      return client.query(text, params);
+    } catch (error) {
+      console.error('数据库查询错误:', error);
+      throw error;
+    }
+  }
 };

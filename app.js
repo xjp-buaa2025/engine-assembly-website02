@@ -30,7 +30,23 @@ const usersRoutes = require('./routes/users');
 app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`服务器运行在 http://localhost:${PORT}`);
+// 处理404错误
+app.use((req, res, next) => {
+  res.status(404).send('页面未找到 - 404');
 });
+
+// 错误处理中间件
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('服务器内部错误 - 500');
+});
+
+// 启动服务器
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`服务器运行在 http://localhost:${PORT}`);
+  });
+}
+
+// 为Vercel导出应用
+module.exports = app;
