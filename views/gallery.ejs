@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
 </head>
 <body class="gallery-page">
   <!-- 导航栏 -->
@@ -66,8 +67,8 @@
         </div>
         
         <div class="gallery-item" data-category="overview">
-          <a href="/api/placeholder/800/600" data-lightbox="engine-gallery" data-title="发动机剖面图">
-            <img src="/api/placeholder/400/300" alt="发动机剖面图">
+          <a href="/images/剖面图.png" data-lightbox="engine-gallery" data-title="发动机剖面图">
+            <img src="/images/剖面图.png" alt="发动机剖面图">
             <div class="gallery-caption">发动机剖面图</div>
           </a>
         </div>
@@ -94,16 +95,16 @@
         </div>
         
         <div class="gallery-item" data-category="assembly">
-          <a href="/api/placeholder/800/600" data-lightbox="engine-gallery" data-title="活塞安装过程">
-            <img src="/api/placeholder/400/300" alt="活塞安装过程">
-            <div class="gallery-caption">活塞安装过程</div>
+          <a href="/images/动捕分析.png" data-lightbox="engine-gallery" data-title="动捕分析">
+            <img src="/images/动捕分析.png" alt="动捕分析">
+            <div class="gallery-caption">动捕分析</div>
           </a>
         </div>
         
         <div class="gallery-item" data-category="assembly">
-          <a href="/api/placeholder/800/600" data-lightbox="engine-gallery" data-title="曲轴安装过程">
-            <img src="/api/placeholder/400/300" alt="曲轴安装过程">
-            <div class="gallery-caption">曲轴安装过程</div>
+          <a href="/images/多人协同.png" data-lightbox="engine-gallery" data-title="多人协同">
+            <img src="/images/多人协同.png" alt="多人协同">
+            <div class="gallery-caption">多人协同</div>
           </a>
         </div>
         
@@ -134,14 +135,14 @@
         </div>
         
         <div class="video-item">
-          <div class="video-thumbnail">
-            <img src="/api/placeholder/400/225" alt="曲轴装配视频">
+          <div class="video-thumbnail" data-video="/videos/工厂调度.mp4">
+            <img src="/images/自定义工位.png" alt="工厂调度">
             <div class="play-icon"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info">
-            <h3>曲轴与连杆装配技术</h3>
-            <p>详细讲解曲轴与连杆的精确装配技术和注意事项。</p>
-            <span class="video-duration">08:45</span>
+            <h3>工厂调度流程</h3>
+            <p>详细展示发动机装配工位自定义配置。</p>
+            <span class="video-duration">00:20</span>
           </div>
         </div>
         
@@ -181,7 +182,7 @@
           <div class="resource-info">
             <h3>发动机装配技术手册</h3>
             <p>全面的发动机装配技术指南，包含各种型号的装配流程和标准。</p>
-            <a href="#" class="resource-download">下载 PDF</a>
+            <a href="/documents/manuals/航空发动机装配工具-2025.4.5.pdf" class="resource-download">下载 PDF</a>
           </div>
         </div>
         
@@ -190,7 +191,7 @@
           <div class="resource-info">
             <h3>装配工艺规范</h3>
             <p>详细的装配工艺规范文档，规定了各部件的装配要求和质量标准。</p>
-            <a href="#" class="resource-download">下载 PDF</a>
+            <a href="/documents/manuals/附件齿轮箱和总装.pdf" class="resource-download">下载 PDF</a>
           </div>
         </div>
         
@@ -264,10 +265,26 @@
       });
     });
     
-    // 视频点击事件（实际项目中需要替换为真实视频播放功能）
-    document.querySelectorAll('.video-thumbnail').forEach(thumbnail => {
-      thumbnail.addEventListener('click', () => {
-        alert('在实际项目中，这里将播放视频');
-      });
-    });
   </script>
+
+  <!-- 在 body 底部确保引入了 Lightbox 脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script>
+  // 配置 Lightbox
+  lightbox.option({
+    'resizeDuration': 200,
+    'wrapAround': true,
+    'albumLabel': "图片 %1 / %2",
+    'alwaysShowNavOnTouchDevices': true,
+    'fadeDuration': 300
+  });
+
+  // 确保点击图片外部区域可以关闭图片查看
+  $(document).on('click', '.lb-overlay, .lb-close', function() {
+    lightbox.end();
+    return false;
+  });
+</script>
+<script src="/js/video-player.js"></script>
+<script src="/js/download-handler.js"></script>
