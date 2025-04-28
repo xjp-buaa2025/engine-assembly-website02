@@ -92,6 +92,11 @@ app.get('/game', requireLogin, (req, res) => {
   res.render('game', { username: req.signedCookies.username });
 });
 
+// 3D模型页面
+app.get('/model', requireLogin, (req, res) => {
+  res.render('model', { username: req.signedCookies.username });
+});
+
 // 退出登录
 app.get('/logout', (req, res) => {
   res.clearCookie('username');
