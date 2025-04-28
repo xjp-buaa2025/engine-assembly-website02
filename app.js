@@ -114,6 +114,19 @@ app.use((err, req, res, next) => {
   res.status(500).send('服务器内部错误 - 500');
 });
 
+// 在 app.js 中添加
+app.use((req, res, next) => {
+  // 设置 Unity WebGL 文件的 MIME 类型
+  if (req.url.endsWith('.wasm')) {
+    res.setHeader('Content-Type', 'application/wasm');
+  } else if (req.url.endsWith('.js') && req.url.includes('/unity/')) {
+    res.setHeader('Content-Type', 'application/javascript');
+  } else if (req.url.endsWith('.data') && req.url.includes('/unity/')) {
+    res.setHeader('Content-Type', 'application/octet-stream');
+  }
+  next();
+});
+
 // 开发环境下启动服务器
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
