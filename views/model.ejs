@@ -5,118 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>发动机虚拟装配系统 - 3D模型</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    /* Unity 容器样式 */
-    .unity-wrapper {
-      max-width: 960px; /* 设置与 Unity 相同的宽度 */
-      margin: 0 auto;   /* 水平居中 */
-      position: relative;
-      box-shadow: var(--box-shadow);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-    }
-    
-    /* 保持 16:10 的宽高比（对应 960x600） */
-    .unity-aspect-ratio {
-      width: 100%;
-      padding-top: 62.5%; /* 600/960 = 0.625，即 62.5% */
-      position: relative;
-      background-color: #000;
-    }
-    
-    .unity-iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    
-    .unity-info {
-      margin-top: 2rem;
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .unity-info h3 {
-      margin-bottom: 1rem;
-      color: var(--primary-color);
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 992px) {
-      .unity-wrapper {
-        width: 100%;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/scifi-theme.css">
+  <link rel="stylesheet" href="/css/model.css">
 </head>
-<body class="model-page">
-  <!-- 导航栏 -->
-  <nav class="main-nav">
+<body>
+  <!-- 科幻风格导航栏 -->
+  <nav class="scifi-nav">
     <div class="nav-container">
-      <div class="logo">
+      <div class="nav-logo">
         <i class="fas fa-cogs"></i>
         <span>发动机虚拟装配系统</span>
       </div>
       
-      <ul class="nav-links">
-        <li><a href="/dashboard"><i class="fas fa-home"></i> 主页</a></li>
-        <li><a href="/gallery"><i class="fas fa-images"></i> 图库</a></li>
-        <li><a href="/game"><i class="fas fa-gamepad"></i> 装配游戏</a></li>
-        <li class="active"><a href="/model"><i class="fas fa-cube"></i> 3D模型</a></li>
-      </ul>
+      <div class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i> 主页</a>
+        <a href="/gallery" class="nav-link"><i class="fas fa-images"></i> 图库</a>
+        <a href="/game" class="nav-link"><i class="fas fa-gamepad"></i> 工位空间布局</a>
+        <a href="/model" class="nav-link active"><i class="fas fa-cube"></i> 3D模型</a>
+      </div>
       
       <div class="user-panel">
         <span class="username"><i class="fas fa-user"></i> <%= username %></span>
-        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出</a>
       </div>
     </div>
   </nav>
   
   <!-- 主要内容 -->
-  <main class="main-content">
+  <div class="model-page-content">
     <div class="page-header">
       <h1>发动机3D模型交互</h1>
       <p>通过3D模型详细了解发动机结构，实时操作和探索各个组件</p>
     </div>
     
-    <!-- Unity 容器 -->
-    <div class="unity-wrapper">
-      <div class="unity-aspect-ratio">
-        <iframe class="unity-iframe" src="/unity/index.html" allowfullscreen></iframe>
+    <!-- 模型展示区 -->
+    <div class="model-display">
+      <div class="model-container">
+        <div class="model-aspect-ratio">
+          <iframe class="model-iframe" src="/unity/index.html" allowfullscreen></iframe>
+        </div>
+      </div>
+      
+      <div class="model-controls">
+        <div class="control-group">
+          <div class="control-title">操作指南</div>
+          <div class="control-items">
+            <div class="control-item">
+              <div class="control-icon"><i class="fas fa-mouse"></i></div>
+              <div class="control-text">左键拖动：旋转视角</div>
+            </div>
+            <div class="control-item">
+              <div class="control-icon"><i class="fas fa-search-plus"></i></div>
+              <div class="control-text">滚轮：缩放模型</div>
+            </div>
+            <div class="control-item">
+              <div class="control-icon"><i class="fas fa-object-ungroup"></i></div>
+              <div class="control-text">右键：展开/收起爆炸图</div>
+            </div>
+            <div class="control-item">
+              <div class="control-icon"><i class="fas fa-hand-pointer"></i></div>
+              <div class="control-text">点击部件：查看详情</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     
-    <div class="unity-info">
-      <h3>操作指南</h3>
-      <p>
-        <b>旋转模型</b>：按住鼠标左键并拖动<br>
-        <b>缩放模型</b>：使用鼠标滚轮或双指触控缩放<br>
-        <b>爆炸视图</b>：点击按钮展示各个零件
-      </p>
+    <!-- 模型信息 -->
+    <div class="model-info-section">
+      <div class="scifi-grid scifi-grid-2">
+        <div class="scifi-card">
+          <div class="card-header">
+            <h3 class="card-title">模型描述</h3>
+          </div>
+          <p>这是一个高精度的发动机3D模型，包含了发动机的所有主要组件和零部件。通过这个模型，您可以详细了解发动机的内部结构、各部件的空间关系以及装配顺序。模型支持实时交互，可以缩放、旋转和分解，以便从各个角度观察发动机的细节。</p>
+        </div>
+        
+        <div class="scifi-card">
+          <div class="card-header">
+            <h3 class="card-title">技术规格</h3>
+          </div>
+          <div class="tech-specifications">
+            <div class="spec-item">
+              <div class="spec-label">模型精度</div>
+              <div class="spec-value">±0.01mm</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">零部件数量</div>
+              <div class="spec-value">217</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">多边形数量</div>
+              <div class="spec-value">1,243,780</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">材质数量</div>
+              <div class="spec-value">54</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div class="unity-info">
-      <h3>模型描述</h3>
-      <p>这是一个高精度的发动机3D模型，包含了发动机的所有主要组件和零部件。通过这个模型，您可以详细了解发动机的内部结构、各部件的空间关系以及装配顺序。模型支持实时交互，可以缩放、旋转，以便从各个角度观察发动机的细节。</p>
-    </div>
-  </main>
+  </div>
   
-  <!-- 页脚 -->
-  <footer class="main-footer">
-    <div class="footer-container">
-      <div class="footer-info">
-        <p>© 2025 发动机虚拟装配技术研究中心</p>
-        <p>先进技术，精密工程</p>
+  <!-- 科幻风格页脚 -->
+  <footer class="scifi-footer">
+    <div class="footer-content">
+      <div class="footer-logo">BUAA工业设计系发动机虚拟装配课题组</div>
+      <div class="footer-info">先进技术 · 精密工程 · 虚拟现实</div>
+      <div class="footer-links">
+        <a href="/dashboard" class="footer-link">主页</a>
+        <a href="/gallery" class="footer-link">图库</a>
+        <a href="/game" class="footer-link">工位空间布局</a>
+        <a href="/model" class="footer-link">3D模型</a>
       </div>
+      <div class="footer-copyright">© BUAA工业设计系发动机虚拟装配课题组. 保留所有权利.</div>
     </div>
   </footer>
 </body>

@@ -3,66 +3,612 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>发动机虚拟装配系统 - 登录</title>
+  <title>发动机虚拟装配系统 - 欢迎</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body class="login-page">
-  <div class="login-container">
-    <div class="login-header">
-      <h1>发动机虚拟装配系统</h1>
-      <p>先进技术，精密工程</p>
-    </div>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* 基础样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     
-    <div class="login-form-container">
-      <div class="logo-container">
-        <i class="fas fa-cogs logo-icon"></i>
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      color: #e0e0e0;
+      background-color: #030718;
+      overflow-x: hidden;
+    }
+    
+    /* 背景动画 */
+    .bg-animation-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .hexagon-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(0, 162, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 162, 255, 0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.2;
+    }
+    
+    /* 主布局 */
+    .welcome-container {
+      display: grid;
+      grid-template-columns: 40% 60%; /* 调整列宽比例，增加模型区域 */
+      width: 100%;
+      height: 100vh;
+    }
+    
+    /* 左侧内容区 */
+    .welcome-content {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 10;
+      background: rgba(8, 15, 30, 0.7);
+    }
+    
+    .welcome-header {
+      margin-bottom: 2rem;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .logo-icon {
+      font-size: 2rem;
+      color: #00a2ff;
+      margin-right: 1rem;
+    }
+    
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 2px;
+    }
+    
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      position: relative;
+      text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+    }
+    
+    .glitch:before, .glitch:after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .glitch:before {
+      left: 2px;
+      text-shadow: -1px 0 #00a2ff;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+    
+    .glitch:after {
+      left: -2px;
+      text-shadow: -1px 0 #ff00a2;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 5s infinite linear alternate-reverse;
+    }
+    
+    @keyframes glitch-anim {
+      0% { clip: rect(28px, 9999px, 39px, 0); }
+      5% { clip: rect(36px, 9999px, 92px, 0); }
+      10% { clip: rect(69px, 9999px, 56px, 0); }
+      15% { clip: rect(74px, 9999px, 92px, 0); }
+      20% { clip: rect(90px, 9999px, 43px, 0); }
+      25% { clip: rect(0, 9999px, 0, 0); }
+      100% { clip: rect(0, 9999px, 0, 0); }
+    }
+    
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 119px, 0); }
+      5% { clip: rect(16px, 9999px, 7px, 0); }
+      10% { clip: rect(32px, 9999px, 5px, 0); }
+      15% { clip: rect(0, 9999px, 0, 0); }
+      100% { clip: rect(0, 9999px, 0, 0); }
+    }
+    
+    .welcome-subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.2rem;
+      color: #00a2ff;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .typing-effect:after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    .welcome-description {
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    /* 状态面板 */
+    .stats-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(0, 10, 30, 0.5);
+      padding: 1.5rem;
+      border-radius: 5px;
+      border-left: 3px solid #00a2ff;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: #00a2ff;
+    }
+    
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .stat-bar {
+      height: 6px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .stat-fill {
+      height: 100%;
+      background: linear-gradient(to right, #0066cc, #00a2ff);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    
+    /* 操作提示 */
+    .welcome-instructions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .instruction-item {
+      display: flex;
+      align-items: center;
+    }
+    
+    .instruction-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 162, 255, 0.1);
+      border-radius: 50%;
+      margin-right: 1rem;
+      color: #00a2ff;
+    }
+    
+    .instruction-text {
+      font-size: 1rem;
+    }
+    
+    /* 入口按钮 */
+    .enter-system {
+      margin-top: 1rem;
+    }
+    
+    .neon-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 2rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      color: #00a2ff;
+      background: rgba(0, 162, 255, 0.1);
+      border: 1px solid #00a2ff;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 162, 255, 0.3), inset 0 0 10px rgba(0, 162, 255, 0.2);
+    }
+    
+    .neon-button:hover {
+      background: rgba(0, 162, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0, 162, 255, 0.5), inset 0 0 20px rgba(0, 162, 255, 0.3);
+    }
+    
+    .neon-button-text {
+      margin-right: 1rem;
+    }
+    
+    .neon-button-icon {
+      font-size: 1rem;
+    }
+    
+    /* 模型容器 */
+    .model-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 改进的加载进度条 */
+    .model-loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 10, 30, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: opacity 0.5s ease;
+    }
+    
+    .model-loading-spinner {
+      width: 100px;
+      height: 100px;
+      border: 4px solid rgba(0, 162, 255, 0.3);
+      border-top: 4px solid #00a2ff;
+      border-radius: 50%;
+      animation: spin 1.5s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    .model-loading-text {
+      color: #00a2ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .model-loading-bar-container {
+      width: 80%;
+      max-width: 400px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    
+    .model-loading-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #0066cc, #00a2ff);
+      transition: width 0.3s ease;
+    }
+    
+    .model-loading-percentage {
+      color: #00a2ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 操作提示悬浮框 */
+    .controls-tooltip {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 10, 30, 0.8);
+      border: 1px solid #00a2ff;
+      border-radius: 5px;
+      padding: 15px;
+      color: white;
+      font-size: 0.9rem;
+      z-index: 50;
+      box-shadow: 0 0 20px rgba(0, 162, 255, 0.3);
+    }
+    
+    .controls-tooltip h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #00a2ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+    }
+    
+    .controls-tooltip p {
+      margin: 5px 0;
+    }
+    
+    .controls-tooltip p i {
+      color: #00a2ff;
+      width: 20px;
+      text-align: center;
+      margin-right: 8px;
+    }
+    
+    /* 技术信息面板 */
+    .tech-panel {
+      position: fixed;
+      bottom: 50px;
+      left: 20px;
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+    }
+    
+    .tech-item {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 10, 30, 0.8);
+      border: 1px solid rgba(0, 162, 255, 0.3);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      color: #00a2ff;
+    }
+    
+    .tech-item i {
+      margin-right: 8px;
+    }
+    
+    /* 底部信息 */
+    .footer-info {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      display: flex;
+      gap: 20px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      z-index: 10;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 1200px) {
+      .welcome-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      
+      .model-container {
+        height: 60vh;
+      }
+      
+      .tech-panel {
+        bottom: auto;
+        top: 10px;
+        left: 10px;
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .tech-item {
+        font-size: 0.7rem;
+        padding: 5px 8px;
+      }
+      
+      .footer-info {
+        bottom: 5px;
+        right: 10px;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景动画元素 -->
+  <div class="bg-animation-container">
+    <div class="hexagon-grid"></div>
+    <div class="particles-container" id="particles-js"></div>
+  </div>
+  
+  <!-- 主体内容 -->
+  <div class="welcome-container">
+    <!-- 左侧内容区 -->
+    <div class="welcome-content">
+      <div class="welcome-header">
+        <div class="logo-container">
+          <div class="logo-icon"><i class="fas fa-cogs"></i></div>
+          <div class="logo-text">BUAA</div>
+        </div>
+        <h1 class="glitch" data-text="发动机虚拟装配系统">发动机虚拟装配系统</h1>
+        <div class="welcome-subtitle">
+          <span class="typing-effect">先进技术 · 精密工程 · 虚拟现实</span>
+        </div>
       </div>
       
-      <form action="/login" method="POST" class="login-form">
-        <% if (error) { %>
-          <div class="error-message"><%= error %></div>
-        <% } %>
-        
-        <div class="form-group">
-          <label for="username">用户名</label>
-          <input type="text" id="username" name="username" placeholder="请输入您的用户名" required>
+      <div class="welcome-description">
+        <p>欢迎使用下一代发动机虚拟装配系统。本系统融合前沿虚拟现实技术与精密工程原理，为您提供身临其境的发动机装配体验。</p>
+      </div>
+      
+      <div class="stats-panel">
+        <div class="stat-item">
+          <div class="stat-label">模型精度</div>
+          <div class="stat-value">99.8%</div>
+          <div class="stat-bar"><div class="stat-fill" style="width:99.8%"></div></div>
         </div>
-        
-        <button type="submit" class="login-button">
-          <span>进入系统</span>
-          <i class="fas fa-arrow-right"></i>
-        </button>
-      </form>
+        <div class="stat-item">
+          <div class="stat-label">系统响应</div>
+          <div class="stat-value">5ms</div>
+          <div class="stat-bar"><div class="stat-fill" style="width:95%"></div></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">渲染帧率</div>
+          <div class="stat-value" id="fps-counter">155 FPS</div>
+          <div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div>
+        </div>
+      </div>
+      
+      <div class="welcome-instructions">
+        <div class="instruction-item">
+          <div class="instruction-icon"><i class="fas fa-mouse"></i></div>
+          <div class="instruction-text">左键拖动：旋转发动机模型</div>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon"><i class="fas fa-mouse-pointer"></i></div>
+          <div class="instruction-text">右键点击：展开/收起爆炸图</div>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon"><i class="fas fa-search-plus"></i></div>
+          <div class="instruction-text">滚轮：缩放发动机模型</div>
+        </div>
+      </div>
+      
+      <div class="enter-system">
+        <a href="/dashboard" class="neon-button">
+          <span class="neon-button-text">进入系统</span>
+          <span class="neon-button-icon"><i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
     </div>
     
-    <div class="login-footer">
-      <p>© 2025 发动机虚拟装配技术研究中心</p>
+    <!-- 右侧3D模型区 -->
+    <div class="model-container" id="engine-model-container">
+      <!-- Three.js将在此渲染模型 -->
+      
+      <!-- 改进的模型加载进度显示 -->
+      <div class="model-loading-overlay" id="model-loading-overlay">
+        <div class="model-loading-spinner"></div>
+        <div class="model-loading-text">正在加载发动机模型...</div>
+        <div class="model-loading-bar-container">
+          <div class="model-loading-bar" id="model-loading-bar"></div>
+        </div>
+        <div class="model-loading-percentage" id="model-loading-percentage">0%</div>
+      </div>
+      
+      <!-- 操作提示 -->
+      <div class="controls-tooltip">
+        <h4>模型控制</h4>
+        <p><i class="fas fa-mouse"></i> 左键拖动旋转模型</p>
+        <p><i class="fas fa-mouse-pointer"></i> 右键点击展开爆炸图</p>
+        <p><i class="fas fa-search-plus"></i> 滚轮缩放模型</p>
+      </div>
     </div>
   </div>
   
-  <div class="particles-container" id="particles-js"></div>
+  <!-- 技术信息面板 -->
+  <div class="tech-panel">
+    <div class="tech-item">
+      <i class="fas fa-microchip"></i>
+      <span id="polygons">1,448,452 Polygons</span>
+    </div>
+    <div class="tech-item">
+      <i class="fas fa-memory"></i>
+      <span>16GB VRAM</span>
+    </div>
+    <div class="tech-item">
+      <i class="fas fa-network-wired"></i>
+      <span>5G CONNECTED</span>
+    </div>
+  </div>
   
+  <!-- 底部信息 -->
+  <div class="footer-info">
+    <div class="copyright">© BUAA工业设计系发动机虚拟装配课题组</div>
+    <div class="version-info">系统版本 v4.2.7</div>
+  </div>
+  
+  <!-- 脚本 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="/js/engine3d.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      particlesJS('particles-js', {
-        particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
-          color: { value: '#ffffff' },
-          shape: { type: 'circle' },
-          opacity: { value: 0.5, random: true },
-          size: { value: 3, random: true },
-          line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
-          move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out' }
-        },
-        interactivity: {
-          detect_on: 'canvas',
-          events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } },
-          modes: { grab: { distance: 140, line_linked: { opacity: 1 } } }
-        }
-      });
+    // 初始化粒子背景
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#00a2ff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: '#00a2ff', opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out' }
+      }
     });
+    
+    // 更新模型加载进度条
+    window.updateModelLoadingProgress = function(progress) {
+      const bar = document.getElementById('model-loading-bar');
+      const percentage = document.getElementById('model-loading-percentage');
+      
+      if (bar && percentage) {
+        bar.style.width = progress + '%';
+        percentage.textContent = progress + '%';
+        
+        // 当加载完成时
+        if (progress >= 100) {
+          setTimeout(() => {
+            const overlay = document.getElementById('model-loading-overlay');
+            if (overlay) {
+              overlay.style.opacity = '0';
+              setTimeout(() => {
+                overlay.style.display = 'none';
+              }, 500);
+            }
+          }, 500);
+        }
+      }
+    };
   </script>
 </body>
 </html>

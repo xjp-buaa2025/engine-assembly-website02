@@ -3,120 +3,205 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>发动机虚拟装配系统 - 装配游戏</title>
+  <title>发动机虚拟装配系统 - 工位空间布局</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/scifi-theme.css">
+  <link rel="stylesheet" href="/css/game.css">
+  <style>
+    /* 保证Unity全屏显示 */
+    .model-container {
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9比例 */
+      position: relative;
+      border: 1px solid rgba(0, 162, 255, 0.5);
+      border-radius: 5px;
+      overflow: hidden;
+      background-color: rgba(0, 10, 30, 0.5);
+    }
+    
+    .model-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* 响应式调整 */
+    @media (min-width: 1200px) {
+      .model-container {
+        min-height: 600px;
+        height: calc(100vh - 300px); /* 适应大屏幕 */
+        padding-bottom: 0;
+      }
+    }
+    
+    /* 控制面板样式 */
+    .model-controls {
+      margin-top: 20px;
+      background: rgba(8, 15, 30, 0.7);
+      border: 1px solid rgba(0, 162, 255, 0.3);
+      border-radius: 5px;
+      padding: 15px;
+    }
+    
+    .control-title {
+      color: #00a2ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(0, 162, 255, 0.3);
+      padding-bottom: 5px;
+    }
+    
+    .control-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .control-item {
+      display: flex;
+      align-items: center;
+      width: calc(50% - 10px);
+    }
+    
+    .control-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 162, 255, 0.1);
+      border-radius: 50%;
+      margin-right: 10px;
+      color: #00a2ff;
+    }
+    
+    .control-text {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .control-item {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-<body class="game-page">
-  <!-- 导航栏 -->
-  <nav class="main-nav">
+<body>
+  <!-- 科幻风格导航栏 -->
+  <nav class="scifi-nav">
     <div class="nav-container">
-      <div class="logo">
+      <div class="nav-logo">
         <i class="fas fa-cogs"></i>
         <span>发动机虚拟装配系统</span>
       </div>
       
-      <ul class="nav-links">
-        <li><a href="/dashboard"><i class="fas fa-home"></i> 主页</a></li>
-        <li><a href="/gallery"><i class="fas fa-images"></i> 图库</a></li>
-        <li class="active"><a href="/game"><i class="fas fa-gamepad"></i> 装配游戏</a></li>
-        <li><a href="/model"><i class="fas fa-cube"></i> 3D模型</a></li>
-      </ul>
+      <div class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i> 主页</a>
+        <a href="/gallery" class="nav-link"><i class="fas fa-images"></i> 图库</a>
+        <a href="/game" class="nav-link active"><i class="fas fa-gamepad"></i> 工位空间布局</a>
+        <a href="/model" class="nav-link"><i class="fas fa-cube"></i> 3D模型</a>
+      </div>
       
       <div class="user-panel">
         <span class="username"><i class="fas fa-user"></i> <%= username %></span>
-        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出</a>
       </div>
     </div>
   </nav>
   
   <!-- 主要内容 -->
-  <main class="main-content">
+  <div class="scifi-container">
     <div class="page-header">
-      <h1>发动机装配游戏</h1>
-      <p>测试您的发动机装配知识，拖放组件到正确的位置</p>
+      <h1>发动机工位空间布局</h1>
+      <p>通过Unity 3D交互式体验发动机工位空间布局和装配流程</p>
     </div>
     
-    <div class="game-container">
-      <div class="game-sidebar">
-        <div class="game-info">
-          <h3>游戏说明</h3>
-          <p>将左侧的发动机零部件拖拽到右侧装配区域的正确位置。</p>
-          <p>按照正确的装配顺序完成所有部件的装配。</p>
-        </div>
-        
-        <div class="game-controls">
-          <button id="start-game" class="game-btn primary">开始游戏</button>
-          <button id="reset-game" class="game-btn">重置游戏</button>
-        </div>
-        
-        <div class="game-score">
-          <div class="score-item">
-            <span class="score-label">当前得分:</span>
-            <span id="current-score" class="score-value">0</span>
-          </div>
-          <div class="score-item">
-            <span class="score-label">剩余时间:</span>
-            <span id="time-left" class="score-value">300</span>
-          </div>
-        </div>
-        
-        <div class="parts-container">
-          <h3>零部件库</h3>
-          <div id="parts-list">
-            <!-- 游戏脚本将在这里动态生成零部件 -->
-          </div>
-        </div>
-      </div>
-      
-      <div class="game-main">
-        <div class="assembly-area">
-          <img src="/api/placeholder/600/400" alt="发动机装配区域" class="assembly-background">
-          <div id="assembly-points">
-            <!-- 游戏脚本将在这里动态生成装配点 -->
-          </div>
-        </div>
-        
-        <div class="game-message" id="game-message">
-          <p>准备好开始装配发动机了吗？点击"开始游戏"按钮！</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="game-modal" id="game-result-modal">
-      <div class="game-modal-content">
-        <h2 id="result-title">游戏结束</h2>
-        <p id="result-message">您的得分: <span id="final-score">0</span></p>
-        <div class="result-details">
-          <div class="result-item">
-            <span class="result-label">正确装配:</span>
-            <span id="correct-parts" class="result-value">0</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label">错误尝试:</span>
-            <span id="incorrect-attempts" class="result-value">0</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label">完成时间:</span>
-            <span id="completion-time" class="result-value">0</span>
-          </div>
-        </div>
-        <button id="play-again" class="game-btn primary">再玩一次</button>
-        <button id="back-to-dashboard" class="game-btn">返回主页</button>
-      </div>
-    </div>
-  </main>
+<!-- Unity展示区 -->
+<div class="model-display">
+  <div class="model-container">
+    <iframe class="model-iframe" src="/unity-game/index.html" allowfullscreen allow="autoplay; fullscreen"></iframe>
+  </div>
   
-  <!-- 页脚 -->
-  <footer class="main-footer">
-    <div class="footer-container">
-      <div class="footer-info">
-        <p>© 2025 发动机虚拟装配技术研究中心</p>
-        <p>先进技术，精密工程</p>
+  <div class="model-controls">
+    <div class="control-group">
+      <div class="control-title">操作指南</div>
+      <div class="control-items">
+        <div class="control-item">
+          <div class="control-icon"><i class="fas fa-mouse"></i></div>
+          <div class="control-text">左键拖动：旋转视角</div>
+        </div>
+        <div class="control-item">
+          <div class="control-icon"><i class="fas fa-search-plus"></i></div>
+          <div class="control-text">滚轮：缩放场景</div>
+        </div>
+        <div class="control-item">
+          <div class="control-icon"><i class="fas fa-arrows-alt"></i></div>
+          <div class="control-text">WASD键：移动摄像机</div>
+        </div>
+        <div class="control-item">
+          <div class="control-icon"><i class="fas fa-hand-pointer"></i></div>
+          <div class="control-text">点击工位：查看详情</div>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+    
+    <!-- 补充信息 -->
+    <div class="model-info-section">
+      <div class="scifi-grid scifi-grid-2">
+        <div class="scifi-card">
+          <div class="card-header">
+            <h3 class="card-title">工位布局说明</h3>
+          </div>
+          <p>此3D场景展示了完整的发动机装配工位空间布局，包括各工位的功能定位、操作流程和相互关系。通过这个交互式布局，您可以直观了解整个装配线的组织结构，以及各工序之间的衔接关系。</p>
+        </div>
+        
+        <div class="scifi-card">
+          <div class="card-header">
+            <h3 class="card-title">技术规格</h3>
+          </div>
+          <div class="tech-specifications">
+            <div class="spec-item">
+              <div class="spec-label">场景比例</div>
+              <div class="spec-value">1:1</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">工位数量</div>
+              <div class="spec-value">12</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">优化分辨率</div>
+              <div class="spec-value">1980 × 1080</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">开发引擎</div>
+              <div class="spec-value">Unity 3D</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 科幻风格页脚 -->
+  <footer class="scifi-footer">
+    <div class="footer-content">
+      <div class="footer-logo">BUAA工业设计系发动机虚拟装配课题组</div>
+      <div class="footer-info">先进技术 · 精密工程 · 虚拟现实</div>
+      <div class="footer-links">
+        <a href="/dashboard" class="footer-link">主页</a>
+        <a href="/gallery" class="footer-link">图库</a>
+        <a href="/game" class="footer-link">工位空间布局</a>
+        <a href="/model" class="footer-link">3D模型</a>
+      </div>
+      <div class="footer-copyright">© BUAA工业设计系发动机虚拟装配课题组. 保留所有权利.</div>
     </div>
   </footer>
-  
-  <script src="/js/game.js"></script>
 </body>
 </html>

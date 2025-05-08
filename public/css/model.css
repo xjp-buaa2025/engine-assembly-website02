@@ -1,0 +1,170 @@
+/* 3D模型页面样式 */
+
+.model-page-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* 模型展示区域 */
+  .model-display {
+    display: flex;
+    margin-bottom: 3rem;
+    gap: 2rem;
+  }
+  
+  .model-container {
+    flex: 1;
+    position: relative;
+    background: var(--bg-panel);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+  }
+  
+  .model-aspect-ratio {
+    width: 100%;
+    padding-top: 62.5%; /* 10:16 比例，适合 960x600 */
+    position: relative;
+  }
+  
+  .model-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  /* 模型控制区 */
+  .model-controls {
+    width: 300px;
+    flex-shrink: 0;
+  }
+  
+  .control-group {
+    background: var(--bg-panel);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    padding: 1.5rem;
+  }
+  
+  .control-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-bright);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+  }
+  
+  .control-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: var(--accent-color);
+  }
+  
+  .control-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .control-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    background: rgba(0, 26, 66, 0.5);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid var(--accent-color);
+  }
+  
+  .control-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    background: rgba(0, 162, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .control-icon i {
+    color: var(--accent-bright);
+  }
+  
+  .control-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  
+  /* 模型信息部分 */
+  .model-info-section {
+    margin-top: 2rem;
+  }
+  
+  .tech-specifications {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .spec-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .spec-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+  }
+  
+  .spec-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-bright);
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 1100px) {
+    .model-display {
+      flex-direction: column;
+    }
+    
+    .model-controls {
+      width: 100%;
+    }
+    
+    .control-items {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .control-item {
+      flex: 1 0 45%;
+      min-width: 200px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tech-specifications {
+      grid-template-columns: 1fr;
+    }
+    
+    .control-item {
+      flex: 1 0 100%;
+    }
+  }

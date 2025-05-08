@@ -1,0 +1,99 @@
+/* 仪表板页面样式 */
+
+/* 最新动态部分 */
+.latest-news {
+    margin-top: 3rem;
+  }
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+    margin: 0.8rem auto 0;
+  }
+  
+  /* 新闻项目 */
+  .news-date {
+    color: var(--accent-bright);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  /* 卡片底部 */
+  .card-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  /* 科幻卡片动画效果 */
+  .scifi-card {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scifi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--accent-color));
+    animation: border-glow 3s ease-in-out infinite alternate;
+  }
+  
+  .scifi-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, transparent, var(--accent-color));
+    animation: border-glow 3s ease-in-out infinite alternate 1.5s;
+  }
+  
+  @keyframes border-glow {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+  
+  /* 动画效果 */
+  .scifi-card .card-title i {
+    color: var(--accent-bright);
+    margin-right: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+  
+  /* 菜单项目高亮效果 */
+  .scifi-grid .scifi-card:hover {
+    background-color: rgba(0, 26, 66, 0.7);
+  }
+  
+  .scifi-grid .scifi-card:hover .card-title {
+    color: var(--accent-bright);
+    text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 576px) {
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }

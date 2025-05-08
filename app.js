@@ -1,20 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const path = require('path');
-const { Pool } = require('pg');
 
-// 初始化Express应用
+// 初始化 Express 应用
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// 数据库连接
-const pool = new Pool({
-  connectionString: 'postgresql://neondb_owner:npg_yXUV5pCMT3Fl@ep-cold-dream-a40dso0e-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require',
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
 
 // 设置视图引擎
 app.set('view engine', 'ejs');
@@ -24,112 +14,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cookieParser('engine-assembly-secret-key')); // 使用签名cookie
 
-// 验证用户是否已登录的中间件
-const requireLogin = (req, res, next) => {
-  if (!req.signedCookies.username) {
-    return res.redirect('/');
-  }
-  next();
-};
+// 文件系统和路径模块
+const fs = require('fs');
 
-// 路由
-
-// 登录页面
-app.get('/', (req, res) => {
-  // 如果已经登录，重定向到仪表板
-  if (req.signedCookies.username) {
-    return res.redirect('/dashboard');
-  }
-  res.render('index', { error: null });
-});
-
-// 处理登录
-app.post('/login', async (req, res) => {
-  try {
-    const { username } = req.body;
-    
-    if (!username || username.trim() === '') {
-      return res.render('index', { error: '请输入用户名' });
-    }
-    
-    // 设置签名cookie，最大有效期7天
-    res.cookie('username', username, { 
-      signed: true, 
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      httpOnly: true
-    });
-    
-    // 尝试保存到数据库 (不阻塞主流程)
-    try {
-      await pool.query('INSERT INTO "name" ("name") VALUES ($1)', [username]);
-    } catch (dbError) {
-      console.error('数据库错误:', dbError);
-      // 继续处理，不因数据库错误而阻止用户体验
-    }
-    
-    // 重定向到仪表板
-    res.redirect('/dashboard');
-  } catch (error) {
-    console.error('登录错误:', error);
-    res.render('index', { error: '登录过程中发生错误' });
-  }
-});
-
-// 仪表板页面
-app.get('/dashboard', requireLogin, (req, res) => {
-  res.render('dashboard', { username: req.signedCookies.username });
-});
-
-// 图库页面
-app.get('/gallery', requireLogin, (req, res) => {
-  res.render('gallery', { username: req.signedCookies.username });
-});
-
-// 游戏页面
-app.get('/game', requireLogin, (req, res) => {
-  res.render('game', { username: req.signedCookies.username });
-});
-
-// 3D模型页面
-app.get('/model', requireLogin, (req, res) => {
-  res.render('model', { username: req.signedCookies.username });
-});
-
-// 退出登录
-app.get('/logout', (req, res) => {
-  res.clearCookie('username');
-  res.redirect('/');
-});
-
-// 处理404错误
-app.use((req, res) => {
-  res.status(404).send('页面未找到 - 404');
-});
-
-// 错误处理中间件
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('服务器内部错误 - 500');
-});
-
-// 在 app.js 中添加
-app.use((req, res, next) => {
-  // 设置 Unity WebGL 文件的 MIME 类型
-  if (req.url.endsWith('.wasm')) {
-    res.setHeader('Content-Type', 'application/wasm');
-  } else if (req.url.endsWith('.js') && req.url.includes('/unity/')) {
-    res.setHeader('Content-Type', 'application/javascript');
-  } else if (req.url.endsWith('.data') && req.url.includes('/unity/')) {
-    res.setHeader('Content-Type', 'application/octet-stream');
-  }
-  next();
-});
-
-// 1. 首先确保文件下载的路由正确设置 - 添加到 app.js
-
-// 专门用于文件下载的路由
+// 文件下载路由
 app.get('/download/:folder/:file', (req, res) => {
   try {
     const folder = req.params.folder;
@@ -178,18 +67,134 @@ function getMimeType(filename) {
     '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     '.zip': 'application/zip',
     '.rar': 'application/x-rar-compressed',
-    '.txt': 'text/plain'
+    '.txt': 'text/plain',
+    '.gltf': 'model/gltf+json',
+    '.glb': 'model/gltf-binary'
   };
   
   return mimeTypes[ext] || 'application/octet-stream';
 }
 
-// 开发环境下启动服务器
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`服务器运行在 http://localhost:${PORT}`);
-  });
-}
+// 添加调试路由，帮助查找资源加载问题
+app.get('/debug-static', (req, res) => {
+  const publicDir = path.join(__dirname, 'public');
+  
+  function scanDirectory(dir, basePath = '') {
+    let result = [];
+    const items = fs.readdirSync(dir);
+    
+    for (const item of items) {
+      const itemPath = path.join(dir, item);
+      const relativePath = path.join(basePath, item).replace(/\\/g, '/');
+      const stats = fs.statSync(itemPath);
+      
+      if (stats.isDirectory()) {
+        result.push(`📁 ${relativePath}`);
+        result = result.concat(scanDirectory(itemPath, relativePath));
+      } else {
+        result.push(`📄 ${relativePath}`);
+      }
+    }
+    
+    return result;
+  }
+  
+  try {
+    const files = scanDirectory(publicDir);
+    
+    res.send(`
+      <h1>静态文件调试</h1>
+      <h2>服务器静态文件目录结构:</h2>
+      <pre>${files.join('<br>')}</pre>
+      <h2>环境信息:</h2>
+      <pre>
+Node.js 版本: ${process.version}
+运行目录: ${__dirname}
+静态文件目录: ${publicDir}
+      </pre>
+    `);
+  } catch (error) {
+    res.status(500).send(`<h1>错误</h1><pre>${error.stack}</pre>`);
+  }
+});
 
-// 导出应用 (用于Vercel)
-module.exports = app;
+// 测试静态文件加载路由
+app.get('/test-static', (req, res) => {
+  res.send(`
+    <h1>静态文件测试</h1>
+    <h2>测试JS文件加载:</h2>
+    <div id="js-test">等待JS加载...</div>
+    <script src="/js/engine3d.js" onerror="document.getElementById('js-test').innerHTML='❌ JS加载失败'"></script>
+    <script>
+      window.onload = function() {
+        if(typeof window.updateModelLoadingProgress === 'function') {
+          document.getElementById('js-test').innerHTML = '✅ JS加载成功 - updateModelLoadingProgress函数已找到';
+        } else {
+          document.getElementById('js-test').innerHTML = '⚠️ JS文件可能加载，但函数未找到';
+        }
+      }
+    </script>
+    
+    <h2>测试3D模型加载:</h2>
+    <p>以下路径应该能够加载模型:</p>
+    <ul>
+      <li><a href="/models/engine.gltf" target="_blank">/models/engine.gltf</a></li>
+      <li><a href="/models/Engine.gltf" target="_blank">/models/Engine.gltf</a></li>
+    </ul>
+  `);
+});
+
+// 路由
+
+// 首页 - 欢迎页面
+app.get('/', (req, res) => {
+  res.render('index', { username: 'Guest' });
+});
+
+// 仪表板页面 - 不再需要登录验证
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard', { username: 'Guest' });
+});
+
+// 图库页面 - 不再需要登录验证
+app.get('/gallery', (req, res) => {
+  res.render('gallery', { username: 'Guest' });
+});
+
+// 游戏页面 - 不再需要登录验证
+app.get('/game', (req, res) => {
+  res.render('game', { username: 'Guest' });
+});
+
+// 3D模型页面 - 不再需要登录验证
+app.get('/model', (req, res) => {
+  res.render('model', { username: 'Guest' });
+});
+
+// 处理404错误
+app.use((req, res) => {
+  console.log('404错误 - 未找到页面:', req.url);
+  res.status(404).send(`
+    <h1>页面未找到 - 404</h1>
+    <p>请求的路径: ${req.url}</p>
+    <p><a href="/">返回首页</a></p>
+  `);
+});
+
+// 错误处理中间件
+app.use((err, req, res, next) => {
+  console.error('服务器错误:', err.stack);
+  res.status(500).send(`
+    <h1>服务器内部错误 - 500</h1>
+    <p>请联系管理员报告此问题</p>
+    <p><a href="/">返回首页</a></p>
+  `);
+});
+
+// 启动服务器
+app.listen(PORT, () => {
+  console.log(`服务器运行在 http://localhost:${PORT}`);
+  console.log(`静态文件目录: ${path.join(__dirname, 'public')}`);
+  console.log(`调试页面: http://localhost:${PORT}/debug-static`);
+  console.log(`测试页面: http://localhost:${PORT}/test-static`);
+});

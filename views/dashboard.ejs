@@ -5,111 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>发动机虚拟装配系统 - 仪表板</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/scifi-theme.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
-<body class="dashboard-page">
-  <!-- 导航栏 -->
-  <nav class="main-nav">
+<body>
+  <!-- 科幻风格导航栏 -->
+  <nav class="scifi-nav">
     <div class="nav-container">
-      <div class="logo">
+      <div class="nav-logo">
         <i class="fas fa-cogs"></i>
         <span>发动机虚拟装配系统</span>
       </div>
       
-      <ul class="nav-links">
-        <li class="active"><a href="/dashboard"><i class="fas fa-home"></i> 主页</a></li>
-        <li><a href="/gallery"><i class="fas fa-images"></i> 图库</a></li>
-        <li><a href="/game"><i class="fas fa-gamepad"></i> 装配游戏</a></li>
-        <li><a href="/model"><i class="fas fa-cube"></i> 3D模型</a></li>
-      </ul>
+      <div class="nav-links">
+        <a href="/dashboard" class="nav-link active"><i class="fas fa-home"></i> 主页</a>
+        <a href="/gallery" class="nav-link"><i class="fas fa-images"></i> 图库</a>
+        <a href="/game" class="nav-link"><i class="fas fa-gamepad"></i> 工位空间布局</a>
+        <a href="/model" class="nav-link"><i class="fas fa-cube"></i> 3D模型</a>
+      </div>
       
       <div class="user-panel">
         <span class="username"><i class="fas fa-user"></i> <%= username %></span>
-        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出</a>
       </div>
     </div>
   </nav>
   
   <!-- 主要内容 -->
-  <main class="main-content">
-    <div class="welcome-section">
-      <h1>欢迎来到发动机虚拟装配系统，<%= username %>！</h1>
-      <p>这个系统提供了发动机装配的虚拟展示和互动体验。</p>
+  <div class="scifi-container">
+    <div class="page-header">
+      <h1>欢迎来到发动机虚拟装配系统</h1>
+      <p>选择您需要的功能，开始使用发动机虚拟装配系统</p>
     </div>
     
-    <div class="dashboard-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-tools"></i>
+    <!-- 以下内容保持不变，只更新样式类名 -->
+    <div class="scifi-grid scifi-grid-4">
+      <div class="scifi-card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-tools"></i> 虚拟装配</h3>
         </div>
-        <h3>虚拟装配</h3>
         <p>查看详细的发动机装配过程，了解每个部件的功能和安装方法。</p>
-        <a href="/gallery" class="feature-link">查看详情</a>
+        <div class="card-footer">
+          <a href="/gallery" class="scifi-btn"><i class="fas fa-arrow-right"></i> 查看详情</a>
+        </div>
       </div>
       
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-film"></i>
+      <div class="scifi-card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-film"></i> 视频展示</h3>
         </div>
-        <h3>视频展示</h3>
         <p>观看高清发动机装配视频教程，直观了解装配工艺和流程。</p>
-        <a href="/gallery#videos" class="feature-link">查看视频</a>
+        <div class="card-footer">
+          <a href="/gallery#videos-section" class="scifi-btn"><i class="fas fa-arrow-right"></i> 查看视频</a>
+        </div>
       </div>
       
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-gamepad"></i>
+      <div class="scifi-card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-gamepad"></i> 工位空间布局</h3>
         </div>
-        <h3>装配游戏</h3>
-        <p>通过互动游戏学习发动机装配顺序，检验您的装配知识。</p>
-        <a href="/game" class="feature-link">开始游戏</a>
+        <p>发动机工位空间布局，自定义工位间的位置关系，动态仿真最高生产效率。</p>
+        <div class="card-footer">
+          <a href="/game" class="scifi-btn"><i class="fas fa-arrow-right"></i> 空间布局</a>
+        </div>
       </div>
       
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-graduation-cap"></i>
+      <div class="scifi-card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-cube"></i> 3D模型</h3>
         </div>
-        <h3>学习资料</h3>
-        <p>浏览专业的发动机知识库，深入了解发动机工作原理和结构。</p>
-        <a href="/gallery#resources" class="feature-link">学习资料</a>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-cube"></i>
+        <p>交互式3D模型展示，可旋转查看、爆炸展示，深入了解结构。</p>
+        <div class="card-footer">
+          <a href="/model" class="scifi-btn"><i class="fas fa-arrow-right"></i> 查看模型</a>
         </div>
-        <h3>3D模型交互</h3>
-        <p>通过交互式3D模型，深入了解发动机结构，实时操作和探索各个组件。</p>
-        <a href="/model" class="feature-link">体验3D模型</a>
       </div>
-
     </div>
+    
+    <div class="glow-line"></div>
     
     <div class="latest-news">
-      <h2>最新动态</h2>
-      <div class="news-grid">
-        <div class="news-item">
+      <h2 class="section-title">最新动态</h2>
+      <div class="scifi-grid scifi-grid-2">
+        <div class="scifi-card">
           <div class="news-date">2025年4月15日</div>
           <h3>发动机虚拟装配技术研讨会</h3>
           <p>我们将举办一场关于最新发动机虚拟装配技术的线上研讨会，欢迎参与。</p>
         </div>
         
-        <div class="news-item">
+        <div class="scifi-card">
           <div class="news-date">2025年3月28日</div>
           <h3>系统更新：新增高精度3D模型</h3>
           <p>我们更新了系统中的3D模型，现在您可以查看更高精度的发动机部件展示。</p>
         </div>
       </div>
     </div>
-  </main>
+  </div>
   
-  <!-- 页脚 -->
-  <footer class="main-footer">
-    <div class="footer-container">
-      <div class="footer-info">
-        <p>© 2025 BUAA工业设计系发动机虚拟装配课题组</p>
-        <p>先进技术，精密工程</p>
+  <!-- 科幻风格页脚 -->
+  <footer class="scifi-footer">
+    <div class="footer-content">
+      <div class="footer-logo">BUAA工业设计系发动机虚拟装配课题组</div>
+      <div class="footer-info">先进技术 · 精密工程 · 虚拟现实</div>
+      <div class="footer-links">
+        <a href="/dashboard" class="footer-link">主页</a>
+        <a href="/gallery" class="footer-link">图库</a>
+        <a href="/game" class="footer-link">工位空间布局</a>
+        <a href="/model" class="footer-link">3D模型</a>
       </div>
+      <div class="footer-copyright">© BUAA工业设计系发动机虚拟装配课题组. 保留所有权利.</div>
     </div>
   </footer>
   
