@@ -1,4 +1,3 @@
-
 {
   "version": 2,
   "builds": [
@@ -13,8 +12,32 @@
   ],
   "routes": [
     {
+      "src": "/js/(.*)",
+      "dest": "/public/js/$1"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "/public/css/$1"
+    },
+    {
+      "src": "/models/(.*)",
+      "dest": "/public/models/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1"
+    },
+    {
       "src": "/unity/(.*)",
       "dest": "/public/unity/$1"
+    },
+    {
+      "src": "/unity-game/(.*)",
+      "dest": "/public/unity-game/$1"
+    },
+    {
+      "src": "/documents/(.*)",
+      "dest": "/public/documents/$1"
     },
     {
       "src": "/(.*)",
