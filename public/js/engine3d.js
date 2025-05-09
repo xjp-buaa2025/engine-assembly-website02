@@ -126,7 +126,7 @@ function init() {
 // 尝试加载多个可能的模型路径
 function tryLoadModels() {
   const possiblePaths = [
-    'http://8.130.137.202/models/engine.gltf',
+    'https://8.130.137.202/models/engine.gltf',
     // 保留本地开发路径
     '/models/engine.gltf'
 
